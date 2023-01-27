@@ -1,10 +1,13 @@
 import fs from 'fs'
+import path from 'path'
 
 import { standardAuthHandler } from '@redwoodjs/cli-helpers'
 
 import { Args } from './setup'
 
-const { version } = JSON.parse(fs.readFileSync('../package.json', 'utf-8'))
+const { version } = JSON.parse(
+  fs.readFileSync(path.join(__dirname, '../package.json'), 'utf-8')
+)
 
 export async function handler({ force: forceArg }: Args) {
   standardAuthHandler({
@@ -12,15 +15,15 @@ export async function handler({ force: forceArg }: Args) {
     forceArg,
     provider: 'ethereum',
     authDecoderImport:
-      "import { ethereumAuthDecoder as authDecoder } from '@redwoodjs/auth-providers-api'",
+      "import { authDecoder } from '@redwoodjs/auth-walletconnect-api'",
     apiPackages: [
-      `@redwoodjs/auth-providers-api@${version}`,
+      `@redwoodjs/auth-walletconnect-api@${version}`,
       'ethereumjs-util',
       'eth-sig-util',
       'jsonwebtoken',
     ],
     webPackages: [
-      `@redwoodjs/auth-providers-web@${version}`,
+      `@redwoodjs/auth-walletconnect-web@${version}`,
       '@oneclickdapp/ethereum-auth',
       '@apollo/client',
     ],
